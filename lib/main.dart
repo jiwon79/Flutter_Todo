@@ -1,19 +1,19 @@
-import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 
-void main() {
-  runApp(const MyApp());
-}
+void main() => runApp(TodoApp());
 
-class MyApp extends StatelessWidget {
-  const MyApp({Key? key}) : super(key: key);
+class TodoApp extends StatelessWidget {
+  const TodoApp({Key? key}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
-      title: 'todo list',
+      title: 'Todo List',
       home: Scaffold(
-        appBar: AppBar(title: Text('Todo App')),),
+        appBar: AppBar(
+          title: Text('Todo List')
+        ),
+      )
     );
   }
 }
