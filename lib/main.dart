@@ -57,6 +57,10 @@ class _TodoListState extends State<TodoList> {
             _addtodoItem(val);
             Navigator.pop(context);
           },
+          decoration: InputDecoration(
+            hintText: 'Enter something to do...',
+            contentPadding: EdgeInsets.all(16)
+          ),
         )
       );
     }));
