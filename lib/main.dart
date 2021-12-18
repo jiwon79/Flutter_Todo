@@ -21,11 +21,12 @@ class TodoList extends StatefulWidget {
 class _TodoListState extends State<TodoList> {
   final List<String> _todoItems = [];
 
-  void _addtodoItem() {
-    setState(() {
-      int index = _todoItems.length;
-      _todoItems.add('Item' + index.toString());
-    });
+  void _addtodoItem(String task) {
+    if (task.isNotEmpty) {
+      setState(() {
+        _todoItems.add(task);
+      });
+    }
   }
 
   Widget _buildTodoList() {
@@ -44,6 +45,23 @@ class _TodoListState extends State<TodoList> {
     );
   }
 
+  void _pushAddToScreen() {
+    Navigator.of(context).push(MaterialPageRoute(builder: (context) {
+      return Scaffold(
+        appBar: AppBar(
+          title: Text('Add a new task'),
+        ),
+        body: TextField(
+          autofocus: true,
+          onSubmitted: (val) {
+            _addtodoItem(val);
+            Navigator.pop(context);
+          },
+        )
+      );
+    }));
+  }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -52,7 +70,7 @@ class _TodoListState extends State<TodoList> {
       ),
       body: _buildTodoList(),
       floatingActionButton: FloatingActionButton(
-        onPressed: _addtodoItem,
+        onPressed: _pushAddToScreen,
         tooltip: 'Add task',
         child: Icon(Icons.add),
       ),
