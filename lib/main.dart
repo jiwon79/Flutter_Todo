@@ -1,3 +1,4 @@
+import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 
 void main() => runApp(TodoApp());
@@ -29,40 +30,70 @@ class _TodoListState extends State<TodoList> {
     }
   }
 
+  void _removeTodoItem(int index) {
+    setState(() {
+      _todoItems.removeAt(index);
+    });
+  }
+
+  void _promptRemoveTodoItem(int index) {
+    showDialog(
+      context: context, 
+      builder: (BuildContext context) {
+        return AlertDialog(
+          title: Text('Mark "${_todoItems[index]}" as done?'),
+          actions: <Widget>[
+            TextButton(
+              onPressed: () => Navigator.of(context).pop(), 
+              child: Text('CANCEL')
+            ),
+            TextButton(
+              onPressed: () {
+                _removeTodoItem(index);
+                Navigator.of(context).pop();
+              },
+              child: Text('MARK AS DONE')
+            ),
+          ]
+        );
+      }
+    );
+  }
+
+
   Widget _buildTodoList() {
     return ListView.builder(
       itemCount: _todoItems.length,
       itemBuilder: (context, index) {
         print(index);
-        return _buildTodoItem(_todoItems[index]);
+        return _buildTodoItem(_todoItems[index], index);
       },
     );
   }
 
-  Widget _buildTodoItem(String todoText) {
+  Widget _buildTodoItem(String todoText, int index) {
     return ListTile(
       title: Text(todoText),
+      onTap: () => _promptRemoveTodoItem(index)
     );
   }
 
   void _pushAddToScreen() {
     Navigator.of(context).push(MaterialPageRoute(builder: (context) {
       return Scaffold(
-        appBar: AppBar(
-          title: Text('Add a new task'),
-        ),
-        body: TextField(
-          autofocus: true,
-          onSubmitted: (val) {
-            _addtodoItem(val);
-            Navigator.pop(context);
-          },
-          decoration: InputDecoration(
-            hintText: 'Enter something to do...',
-            contentPadding: EdgeInsets.all(16)
+          appBar: AppBar(
+            title: Text('Add a new task'),
           ),
-        )
-      );
+          body: TextField(
+            autofocus: true,
+            onSubmitted: (val) {
+              _addtodoItem(val);
+              Navigator.pop(context);
+            },
+            decoration: InputDecoration(
+                hintText: 'Enter something to do...',
+                contentPadding: EdgeInsets.all(16)),
+          ));
     }));
   }
 
